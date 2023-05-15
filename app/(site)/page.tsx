@@ -15,7 +15,7 @@ const Auth = () => {
         bg-gray-100
       "
     >
-      <div className="sm:mx-auto sm:w-full sm:max-w-\">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <Image
           height="48"
           width="48"
