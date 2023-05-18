@@ -53,6 +53,7 @@ const AuthForm = () => {
       // Axios Register
       axios
         .post("/api/register", data)
+        .then(() => signIn("credentials", { ...data }))
         .catch(() => toast.error("Something went wrong!"))
         .finally(() => setIsLoading(false));
     }
@@ -70,6 +71,7 @@ const AuthForm = () => {
 
           if (callback?.ok && !callback?.error) {
             toast.success("Logged In!");
+            router.push("/users");
           }
         })
         .finally(() => setIsLoading(false));
@@ -87,6 +89,7 @@ const AuthForm = () => {
         }
         if (!callback?.error && callback?.ok) {
           toast.success("Logged In");
+          router.push("/users");
         }
       })
       .finally(() => setIsLoading(false));
