@@ -6,6 +6,8 @@ export default async function UserLayout({
   children: React.ReactNode;
 }) {
   return (
+    // TS giving error because Sidebar is server component and can not be used as JSX element
+    // @ts-expect-error Server Component
     <Sidebar>
       <div className="h-full">{children}</div>
     </Sidebar>
