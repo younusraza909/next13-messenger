@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "@/app/libs/utils";
 import Link from "next/link";
 
 interface DesktopItemProps {
@@ -26,7 +26,7 @@ const DesktopItem: React.FC<DesktopItemProps> = ({
     <li onClick={handleClick} key={label}>
       <Link
         href={href}
-        className={clsx(
+        className={cn(
           `
             group 
             flex 
