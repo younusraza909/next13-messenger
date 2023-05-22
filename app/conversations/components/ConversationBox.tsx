@@ -6,7 +6,7 @@ import { Conversation, Message, User } from "@prisma/client";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import { FullConversationType } from "@/app/types";
-import userOtherUser from "@/app/hooks/useOtherUser";
+import useOtherUser from "@/app/hooks/useOtherUser";
 import Avatar from "@/app/components/Avatar";
 import { cn } from "@/app/libs/utils";
 
@@ -19,7 +19,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
   data,
   selected,
 }) => {
-  const otherUser = userOtherUser(data);
+  const otherUser = useOtherUser(data);
   const session = useSession();
   const router = useRouter();
 
