@@ -8,6 +8,7 @@ import { useMemo, useState } from "react";
 import { HiChevronLeft } from "react-icons/hi";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
 import ProfileDrawer from "./ProfileDrawer";
+import AvatarGroup from "@/app/components/AvatarGroup";
 
 interface HeaderProps {
   conversation: Conversation & {
@@ -35,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
         onClose={() => setDrawerOpen(false)}
       />
       <div
-        className="
+        className='
         bg-white 
         w-full 
         flex 
@@ -47,28 +48,32 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
         justify-between 
         items-center 
         shadow-sm
-      "
+      '
       >
-        <div className="flex gap-3 items-center">
+        <div className='flex gap-3 items-center'>
           <Link
-            href="/conversations"
-            className="
+            href='/conversations'
+            className='
             lg:hidden 
             block 
             text-sky-500 
             hover:text-sky-600 
             transition 
             cursor-pointer
-          "
+          '
           >
             <HiChevronLeft size={32} />
           </Link>
 
-          <Avatar user={otherUser} />
+          {conversation.isGroup ? (
+            <AvatarGroup users={conversation?.users} />
+          ) : (
+            <Avatar user={otherUser} />
+          )}
 
-          <div className="flex flex-col">
+          <div className='flex flex-col'>
             <div>{conversation.name || otherUser.name}</div>
-            <div className="text-sm font-light text-neutral-500">
+            <div className='text-sm font-light text-neutral-500'>
               {statusText}
             </div>
           </div>
@@ -76,12 +81,12 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
         <HiEllipsisHorizontal
           size={32}
           onClick={() => setDrawerOpen(true)}
-          className="
+          className='
           text-sky-500
           cursor-pointer
           hover:text-sky-600
           transition
-        "
+        '
         />
       </div>
     </>
