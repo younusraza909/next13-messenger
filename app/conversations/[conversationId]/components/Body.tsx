@@ -42,13 +42,27 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
       bottomRef?.current?.scrollIntoView();
     };
 
+    const updateMessageHandler = (newMessage: FullMessageType) => {
+      setMessages((current) =>
+        current.map((currentMessage) => {
+          if (currentMessage.id === newMessage.id) {
+            return newMessage;
+          }
+
+          return currentMessage;
+        })
+      );
+    };
+
     // In this we are telling it to run a specific function if it found following key in that channel
     pusherClient.bind("messages:new", messageHandler);
+    pusherClient.bind("message:update", updateMessageHandler);
 
     return () => {
       // unmounting all hooks and listener
       pusherClient.unsubscribe(conversationId);
       pusherClient.unbind("messages:new", messageHandler);
+      pusherClient.unbind("message:update", updateMessageHandler);
     };
   }, [conversationId]);
 
