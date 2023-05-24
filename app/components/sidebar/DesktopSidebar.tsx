@@ -5,20 +5,25 @@ import { useState } from "react";
 import DesktopItem from "./DesktopItems";
 import { User } from "@prisma/client";
 import Avatar from "../Avatar";
+import SettingsModal from "../SettingsModal";
 
 interface DesktopSidebarProps {
-  currentUser: User | null;
+  currentUser: User;
 }
 
 const DesktopSidebar: React.FC<DesktopSidebarProps> = ({ currentUser }) => {
   const routes = useRoutes();
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log("currentUser", currentUser);
   return (
     <>
+      <SettingsModal
+        currentUser={currentUser}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
       <div
-        className="
+        className='
        hidden 
        lg:fixed 
        lg:inset-y-0 
@@ -33,10 +38,10 @@ const DesktopSidebar: React.FC<DesktopSidebarProps> = ({ currentUser }) => {
        lg:flex
        lg:flex-col
        justify-between
-       "
+       '
       >
-        <nav className="mt-4 flex flex-col justify-between">
-          <ul role="list" className="flex flex-col items-center space-y-1">
+        <nav className='mt-4 flex flex-col justify-between'>
+          <ul role='list' className='flex flex-col items-center space-y-1'>
             {routes.map((item) => (
               <DesktopItem
                 key={item.label}
@@ -49,10 +54,10 @@ const DesktopSidebar: React.FC<DesktopSidebarProps> = ({ currentUser }) => {
             ))}
           </ul>
         </nav>
-        <nav className="mt-4 flex flex-col justify-between items-center">
+        <nav className='mt-4 flex flex-col justify-between items-center'>
           <div
             onClick={() => setIsOpen(true)}
-            className="cursor-pointer hover:opacity-75 transition"
+            className='cursor-pointer hover:opacity-75 transition'
           >
             <Avatar user={currentUser} />
           </div>
