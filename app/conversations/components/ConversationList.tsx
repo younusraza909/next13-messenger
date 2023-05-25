@@ -2,13 +2,13 @@
 
 import useConversation from "@/app/hooks/useConversation";
 import { cn } from "@/app/libs/utils";
-import { FullConversationType } from "@/app/types";
+import { FullConversationType, FullMessageType } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { MdOutlineGroupAdd } from "react-icons/md";
 import ConversationBox from "./ConversationBox";
 import GroupChatModal from "@/app/components/modals/GroupChatModal";
-import { User } from "@prisma/client";
+import { Message, User } from "@prisma/client";
 import { pusherClient } from "@/app/libs/pusher";
 import { useSession } from "next-auth/react";
 import { find } from "lodash";
@@ -50,10 +50,26 @@ const ConversationList: React.FC<ConversationListProps> = ({
       });
     };
 
+    const updateHandler = (conversation: FullConversationType) => {
+      setItems((current) =>
+        current.map((currentConversation) => {
+          if (currentConversation.id === conversation.id) {
+            return {
+              ...currentConversation,
+              messages: conversation.messages,
+            };
+          }
+
+          return currentConversation;
+        })
+      );
+    };
     pusherClient.bind("conversation:new", newHandler);
+    pusherClient.bind("conversation:update", updateHandler);
 
     return () => {
-      pusherClient.unbind("conversation:new");
+      pusherClient.unbind("conversation:update", updateHandler);
+      pusherClient.bind("conversation:new", newHandler);
       pusherClient.unsubscribe(pusherKey);
     };
   }, [pusherKey, router]);
